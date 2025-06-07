@@ -25,3 +25,6 @@ Check the env:
 * `kubectl config get-contexts | grep "kubebuilder"`
 
 ## Operator creation.
+* `mkdir ~/scaleoperator`
+* `kubebuilder init --domain webinar.io --repo webinar.io/scaleoperator`
+* `kubebuilder create api --group scale --version v1alpha1 --kind Scaler`
