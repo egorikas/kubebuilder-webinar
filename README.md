@@ -24,7 +24,7 @@ Check the env:
 * `kubectl get nodes`
 * `kubectl config get-contexts | grep "kubebuilder"`
 
-## Operator creation.
+## CRD.
 * `mkdir ~/scaleoperator`
 * `kubebuilder init --domain webinar.io --repo webinar.io/scaleoperator`
 * `kubebuilder create api --group scale --version v1alpha1 --kind Scaler`
@@ -102,4 +102,12 @@ type ScalerList struct {
 	Items           []Scaler `json:"items"`
 }
 
-``` 
+```
+
+## Delivery.
+* `make`
+* `make install`
+* `kubectl get crd`
+* `kubectl get crd scalers.scale.webinar.io -o yaml`
+
+## Controller.
