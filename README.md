@@ -2,6 +2,7 @@
 My preparation notes for the webinar I am going to host
 
 
+## Setup of the env.
 ### Step 1.
 Check, that docker runs `docker --version`
 
@@ -17,3 +18,10 @@ Install [k3d](https://k3d.io/stable/) `brew install k3d`
 ### Step 5.
 Create a new cluster `k3d cluster create kubebuilder-webinar`
 
+### Step 6.
+Check the env:
+* `kubectl cluster-info`
+* `kubectl get nodes`
+* `kubectl config get-contexts | grep "kubebuilder"`
+
+## Operator creation.
