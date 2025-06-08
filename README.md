@@ -30,25 +30,34 @@ Check the env:
 * `kubebuilder create api --group scale --version v1alpha1 --kind Scaler`
 * Add code
 ```
+
 // ScalerSpec defines the desired state of Scaler.
+// +kubebuilder:validation:Minimum=0
 type ScalerSpec struct {
 	// Desired replicas from infrastructure actor
-	InfrastructureReplicas int32 `json:"infrastructureReplicas,omitempty"`
+	InfraReplicas *int32 `json:"infraReplicas,omitempty"`
 	// Desired replicas from application portal actor
-	ApplicationReplicas int32 `json:"applicationReplicas,omitempty"`
+	PortalReplicas *int32 `json:"portalReplicas,omitempty"`
 	// Target Deployment name to scale
-	DeploymentName string `json:"deploymentName,omitempty"`
+	DeploymentName string `json:"deploymentName"`
 }
 
 // ScalerStatus defines the observed state of Scaler.
 type ScalerStatus struct {
-	AppliedReplicas int32 `json:"appliedReplicas,omitempty"`
-	ActualReplicas  int32 `json:"actualReplicas,omitempty"`
+	// ObservedGeneration is the most recent generation observed for this Scaler.
+	ObservedGeneration int64 `json:"observedGeneration,omitempty"`
+	// DesiredReplicas is the number of replicas that the Scaler is trying to achieve.
+	DesiredReplicas int32 `json:"desiredReplicas"`
+	// ActualReplicas is the number of replicas that are currently running.
+	ActualReplicas int32 `json:"actualReplicas"`
+	// Conditions represent the latest available observations of a Scaler's current state.
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
 }
 
 // Scaler is the Schema for the scalers API.
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Desired",type="integer",JSONPath=".status.desiredReplicas"
 type Scaler struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -64,6 +73,10 @@ type ScalerList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Scaler `json:"items"`
 }
+
+func init() {
+	SchemeBuilder.Register(&Scaler{}, &ScalerList{})
+}
 ```
 
 ## Delivery.
@@ -73,3 +86,7 @@ type ScalerList struct {
 * `kubectl get crd scalers.scale.webinar.io -o yaml`
 
 ## Controller.
+Controller code:
+```
+// controllers/scaletarget_controller.go
+```
