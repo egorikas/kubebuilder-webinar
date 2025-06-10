@@ -280,5 +280,5 @@ func (r *ScalerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 ```
 
-
-Create the object `kubectl apply -f scale_v1alpha1_scaler.yaml`
+* `k3d image import nginx:stable -c kubebuilder-webinar`
+* Create the object `kubectl apply -f scale_v1alpha1_scaler.yaml`
